@@ -1,0 +1,270 @@
+import 'package:auto_hide_keyboard/auto_hide_keyboard.dart';
+import 'package:dropdown_flutter/custom_dropdown.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class Assets {
+  static const String x = 'assets/x.png';
+}
+
+ThemeData appTheme = ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.dark,
+  scaffoldBackgroundColor: const Color(0xFF121212),
+
+  // Color Scheme (Flutter 3+ standard)
+  colorScheme: const ColorScheme.dark(
+    primary: Color(0xFF8B2E3C),
+    secondary: Color(0xFFFD9A30),
+    tertiary: Color(0xFFA4C639),
+    surface: Color(0xFF252525),
+    background: Color(0xFF121212),
+    error: Color(0xFFCF6679),
+
+    onPrimary: Colors.white,
+    onSecondary: Colors.black,
+    onSurface: Color(0xFFF5F5F5),
+    onBackground: Color(0xFFF5F5F5),
+    onError: Colors.black,
+  ),
+
+  // AppBar
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color(0xFF1E1E1E),
+    elevation: 0,
+    iconTheme: IconThemeData(color: Color(0xFFF5F5F5)),
+    titleTextStyle: TextStyle(
+      color: Color(0xFFF5F5F5),
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+    ),
+  ),
+
+  // Cards
+  cardColor: const Color(0xFF252525),
+  cardTheme: const CardThemeData(
+    color: Color(0xFF252525),
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(16)),
+    ),
+  ),
+
+  // Text
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(color: Color(0xFFF5F5F5)),
+    bodyMedium: TextStyle(color: Color(0xFFD8D8D8)),
+    titleLarge: TextStyle(
+      color: Color(0xFFF5F5F5),
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+
+  // Icons
+  iconTheme: const IconThemeData(
+    color: Color(0xFFB0B0B0),
+  ),
+
+  // Buttons
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF8B2E3C),
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  ),
+
+  filledButtonTheme: FilledButtonThemeData(
+    style: FilledButton.styleFrom(
+      backgroundColor: const Color(0xFFFFA94D),
+      foregroundColor: Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  ),
+
+  // Input fields
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: const Color(0xFF202020),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide.none,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Color(0xFFCF6679)),
+    ),
+    hintStyle: const TextStyle(color: Color(0xFFB0B0B0)),
+    helperStyle: const TextStyle(height: 0, fontSize: 0),
+    errorStyle: const TextStyle(height: 0, fontSize: 0),
+  ),
+
+  // Bottom Navigation
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Color(0xFF1E1E1E),
+    selectedItemColor: Color(0xFFFFA94D),
+    unselectedItemColor: Color(0xFFB0B0B0),
+    type: BottomNavigationBarType.fixed,
+  ),
+
+  // Divider
+  dividerColor: const Color(0xFF2C2C2C),
+);
+
+
+// class FilterRow extends StatelessWidget {
+//   const FilterRow({
+//     super.key,
+//     required this.controller,
+//     required this.filterKey,
+//   });
+
+//   final QFSController controller;
+//   final String filterKey;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var map = controller.getFilterEnrty(filterKey).value;
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//         children: [
+//           TextButton(
+//             onPressed: () => controller.onChanged('all', filterKey),
+//             child: Text('all'),
+//             style: TextButton.styleFrom(
+//               backgroundColor: map['all']!
+//                 ? appTheme.colorScheme.primary : null,
+//               foregroundColor: map['all']!
+//                 ? Colors.white : null,
+//             ),
+//           ),
+//           Expanded(
+//             child: SingleChildScrollView(
+//               scrollDirection: Axis.horizontal,
+//               child: Row(
+//                 children: [
+//                   for (var item in map.entries) ...[
+//                     if (item.key != 'all') TextButton(
+//                       onPressed: () => controller.onChanged(item.key, filterKey),
+//                       child: Text(item.key),
+//                       style: TextButton.styleFrom(
+//                         backgroundColor: item.value
+//                           ? appTheme.colorScheme.secondary : null,
+//                         foregroundColor: item.value
+//                           ? Colors.white : null,
+//                       ),
+//                     ),
+//                   ]
+//                 ],
+//               ),
+//             ),
+//           )
+//         ]
+//       );
+//   }
+// }
+
+// class SortRow extends StatelessWidget {
+//   const SortRow({
+//     super.key,
+//     required this.controller,
+//   });
+
+//   final QFSController controller;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         Text('Sort by :  '),
+//         Expanded(
+//           child: DropdownFlutter(
+//             decoration: CustomDropdownDecoration(
+//               closedFillColor: appTheme.inputDecorationTheme.fillColor,
+//               listItemStyle: TextStyle(color: ThemeData.dark().primaryColor),
+//             ),
+            
+//             excludeSelected: false,
+//             items: ['Latest', 'Oldest', 'Name (A-Z)', 'Name (Z-A)'],
+//             controller: controller.sortController,
+//             onChanged: (value) => controller.onChanged(),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+class AutoHideTextField extends StatelessWidget {
+  const AutoHideTextField({
+    super.key,
+    this.labelText,
+    this.errorText,
+    this.controller,
+    this.focusNode,
+    this.maxLines = 1,
+    this.decoration = const InputDecoration(),
+    this.keyboardType,
+    this.obscureText,
+    this.inputFormatters,
+    this.canError = true,
+    this.onChanged,
+    this.enabled = true
+  });
+
+  final String? labelText;
+  final String? errorText;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final int? maxLines;
+  final InputDecoration decoration;
+  final TextInputType? keyboardType;
+  final bool? obscureText;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool canError;
+  final bool enabled;
+  final Function(String)? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoHideKeyboard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 4,
+        children: [
+          if (labelText != null) Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(labelText!, textScaleFactor: 1.02),
+              if (errorText != null) Text(
+                errorText!,
+                style: TextStyle(color: ColorScheme.dark().error)
+              ),
+            ]
+          ),
+          TextField(
+            controller: controller,
+            focusNode: focusNode,
+            maxLines: maxLines,
+            decoration: decoration.copyWith(
+              filled: true,
+              helperText: canError ? '': null,
+              errorText: errorText == null ? null : ''
+            ),
+            inputFormatters: inputFormatters,
+            keyboardType: keyboardType,
+            onChanged: onChanged,
+            obscureText: obscureText ?? false,
+          ),
+        ],
+      ),
+    );
+  }
+}
