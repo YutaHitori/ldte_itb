@@ -95,14 +95,6 @@ class Pinjam extends StatelessWidget {
                 errorText: c.dosenE.value,
               ),
               AutoHideTextField(
-                labelText: 'NIP',
-                decoration: InputDecoration(hintText: '-'),
-                controller: c.nipC,
-                errorText: c.nipE.value,
-                keyboardType: TextInputType.number,
-                inputFormatters: [ FilteringTextInputFormatter.allow(RegExp(r'[0-9\-\/\s]')) ],
-              ),
-              AutoHideTextField(
                 labelText: 'Ketua Prodi',
                 decoration: InputDecoration(hintText: '-'),
                 controller: c.ketuaC,

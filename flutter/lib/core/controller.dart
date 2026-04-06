@@ -31,7 +31,6 @@ class FormController extends GetxController {
   final fakultasC = SingleSelectController<String>(null);
   final prodiC = SingleSelectController<String>(null);
   final dosenC = TextEditingController();
-  final nipC = TextEditingController();
   final ketuaC = TextEditingController();
   final mulaiC = TextEditingController();
   final akhirC = TextEditingController();
@@ -43,7 +42,6 @@ class FormController extends GetxController {
   final namaE = Rxn<String>(null); 
   final nimE = Rxn<String>(null); 
   final dosenE = Rxn<String>(null); 
-  final nipE = Rxn<String>(null);  
   final ketuaE = Rxn<String>(null);  
   final mulaiE = Rxn<String>(null); 
   final akhirE = Rxn<String>(null); 
@@ -106,7 +104,6 @@ class FormController extends GetxController {
     final fakultas = regexp.firstMatch(fakultasC.value ?? '')?.group(1);
     final prodi = prodiC.value?.replaceAll(RegExp(r'\((.*?)\)'), '').trim();
     final dosen = dosenC.text.isBlank() ? null : dosenC.text.trim();
-    final nip = nipC.text.isBlank() ? null : nipC.text.trim();
     final ketua = ketuaC.text.isBlank() ? null : ketuaC.text.trim();
     final mulai = mulaiC.text.isBlank() ? null
       : DateFormat('d MMMM yyyy', 'id_ID').format((DateTime.parse(mulaiC.text.replaceAll('/', '-'))));
@@ -244,7 +241,7 @@ class FormController extends GetxController {
                         pw.SizedBox(height: 40,),
                         pw.Text('Nama: ${dosen ?? ''}'),
                         pw.SizedBox(height: 5),
-                        pw.Text('NIP: ${nip ?? ''}'),
+                        pw.Text('NIP:'),
                       ]
                     ),
                   ]
@@ -259,6 +256,8 @@ class FormController extends GetxController {
                     pw.Text("Ketua Prodi ${prodi ?? "__________"}"),  
                     pw.SizedBox(height: 40,),
                     pw.Text("${ketua ?? "____________________"}"),
+                    pw.SizedBox(height: 5),
+                    pw.Text('NIP:'),
                   ],
                 ),
               ),

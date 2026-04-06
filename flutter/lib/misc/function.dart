@@ -87,24 +87,26 @@ List<String> getAvailableProdi(String? fakultas) {
   switch (fakultas) {
     case 'Fakultas Ilmu dan Teknologi Kebumian (FITB)': 
       return [
-        "Sistem dan Teknologi Informasi (II)",
-        "Teknik Biomedis (EB)",
-        "Teknik Elektro (EL)",
-        "Informatika (IF)",
-        "Teknik Telekomunikasi (ET)",
-        "Teknik Tenaga Listrik (EP)"
+        "Meteorologi (ME)",
+        "Oseanografi (OS)",
+        "Teknik Geodesi dan Geomatika (GD)",
+        "Teknik Geologi (GL)",
       ];
     case 'Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)': 
       return [
-        "Teknik Dirgantara (AE)",
-        "Teknik Material (MT)",
-        "Teknik Mesin (MS)",
+        "Aktuaria (AK)",
+        "Astronomi (AS)",
+        "Fisika (FI)",
+        "Kimia (KI)",
+        "Matematika (MA)",
       ];
     case 'Fakultas Seni Rupa dan Desain (FSRD)': 
       return [
-        "Teknik Dirgantara (AE)", 
-        "Teknik Material (MT)", 
-        "Teknik Mesin (MS)",  
+        "Desain Interior (DI)",
+        "Desain Komunikasi Visual (DKV)",
+        "Desain Produk (DP)",
+        "Kriya (KR)",
+        "Seni Rupa (SR)",
       ];
     case 'Fakultas Teknik Mesin dan Dirgantara (FTMD)': 
       return [
@@ -114,19 +116,18 @@ List<String> getAvailableProdi(String? fakultas) {
       ];
     case 'Fakultas Teknik Pertambangan dan Perminyakan (FTTM)': 
       return [
-      "Teknik Geofisika (TG)",
-      "Teknik Metalurgi (MG)",
-      "Teknik Perminyakan (TM)",
-      "Teknik Pertambangan (TA)",
+        "Teknik Geofisika (TG)",
+        "Teknik Metalurgi (MG)",
+        "Teknik Perminyakan (TM)",
+        "Teknik Pertambangan (TA)",
       ];
     case 'Fakultas Teknik Sipil dan Lingkungan (FTSL)': 
       return [
-        "Manajemen Rekayasa Industri (MR)",
-        "Teknik Bioenergi dan Kemurgi (TB)",
-        "Teknik Fisika (TF)",
-        "Teknik Industri (TI)",
-        "Teknik Kimia (TK)",
-        "Teknik Pangan (PG)",
+        "Rekayasa Infrastruktur Lingkungan (IL)",
+        "Teknik dan Pengelolaan Sumber Daya Air (SA)",
+        "Teknik Kelautan (KL)",
+        "Teknik Lingkungan (TL)",
+        "Teknik Sipil (SI)",
       ];
     case 'Fakultas Teknologi Industri (FTI)': 
       return [
@@ -154,12 +155,12 @@ List<String> getAvailableProdi(String? fakultas) {
       ];
     case 'Sekolah Ilmu dan Teknologi Hayati (SITH)': 
       return [
-        "Sistem dan Teknologi Informasi (II)",
-        "Teknik Biomedis (EB)",
-        "Teknik Elektro (EL)",
-        "Informatika (IF)",
-        "Teknik Telekomunikasi (ET)",
-        "Teknik Tenaga Listrik (EP)"
+        "Biologi (BI)",
+        "Mikrobiologi (BM)",
+        "Rekayasa Hayati (BE)",
+        "Rekayasa Pertanian (BA)",
+        "Rekayasa Kehutanan (BW)",
+        "Teknologi Pascapanen (BP)",
       ];
     case 'Sekolah Teknik Elektro dan Informatika (STEI)': 
       return [
