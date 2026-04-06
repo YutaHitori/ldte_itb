@@ -1,6 +1,6 @@
 {
-    "name": "ldte_itb",
-    "short_name": "ldte_itb",
+    "name": "form_itb",
+    "short_name": "form_itb",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

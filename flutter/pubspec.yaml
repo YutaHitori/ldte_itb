@@ -1,7 +1,7 @@
-name: ldte_itb
-description: "Laboratorium Dasar Teknik Elektro - Institut Teknologi Bandung"
+name: form_itb
+description: "Website pembuatan berbagai formulir di Institut Teknologi Bandung"
 publish_to: 'none'
-version: 0.1.2+1
+version: 0.1.3+1
 
 environment:
   sdk: ^3.10.7

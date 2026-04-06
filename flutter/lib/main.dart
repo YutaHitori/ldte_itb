@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ldte_itb/core/custom-widget.dart';
-import 'package:ldte_itb/form/pinjam.dart';
-import 'package:ldte_itb/homepage.dart';
+import 'package:form_itb/core/custom-widget.dart';
+import 'package:form_itb/form/pinjam.dart';
+import 'package:form_itb/homepage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_strategy/url_strategy.dart';
 

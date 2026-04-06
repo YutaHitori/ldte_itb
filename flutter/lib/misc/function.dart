@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ldte_itb/misc/extension.dart';
+import 'package:form_itb/misc/extension.dart';
 
 void phoneValidateFormatFocus(TextEditingController phone, FocusNode phoneFN, Rxn<String> phoneE) {
   String result = phone.text.trim();
