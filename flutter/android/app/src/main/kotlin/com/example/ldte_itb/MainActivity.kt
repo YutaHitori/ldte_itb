@@ -1,4 +1,4 @@
-package com.example.form_itb
+package com.example.ldte_stei_itb
 
 import io.flutter.embedding.android.FlutterActivity
 

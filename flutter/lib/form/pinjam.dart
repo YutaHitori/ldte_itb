@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dropdown_flutter/custom_dropdown.dart';
 import 'package:get/get.dart';
-import 'package:form_itb/misc/global.dart';
-import 'package:form_itb/core/controller.dart';
-import 'package:form_itb/core/custom-widget.dart';
+import 'package:ldte_stei_itb/misc/global.dart';
+import 'package:ldte_stei_itb/core/controller.dart';
+import 'package:ldte_stei_itb/core/custom-widget.dart';
 
 class Pinjam extends StatelessWidget {
   const Pinjam({super.key});
