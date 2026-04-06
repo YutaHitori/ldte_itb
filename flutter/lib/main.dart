@@ -15,7 +15,7 @@ void main() {
   runApp(
     GetMaterialApp(
       theme: appTheme,
-      title: 'LDTE ITB',
+      title: 'Formulir ITB',
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => Homepage()),
