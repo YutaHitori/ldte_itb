@@ -1,16 +1,15 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ldte_stei_itb/core/custom-widget.dart';
+import 'package:ldte_stei_itb/core/download/save_pdf.dart';
 import 'package:dropdown_flutter/custom_dropdown.dart';
 import 'package:ldte_stei_itb/misc/function.dart';
 import 'package:ldte_stei_itb/misc/global.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:web/web.dart' as web;
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:printing/printing.dart';
 import 'package:intl/intl.dart';
@@ -120,23 +119,28 @@ class FormController extends GetxController {
 
     pdf.addPage(pw.MultiPage(
       pageFormat: PdfPageFormat.letter,
-      margin: pw.EdgeInsets.fromLTRB(72, 72, 72, 40),
-      footer: (context) => pw.DefaultTextStyle(
-        style: defaultTextStyle(ttf, ttfBold, ttfItalic, fontSize: 11),
-        child: pw.Transform.translate(
-          offset: PdfPoint(0, 0), 
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text("Catatan:", textAlign: pw.TextAlign.justify),
-              pw.SizedBox(height: 2.0),
-              pw.Text("1. Surat pernyataan ini sekaligus sebagai tanda terima barang.", textAlign: pw.TextAlign.justify),
-              pw.SizedBox(height: 2.0),
-              pw.Text("2. Peminjam selain Prodi Teknik Elektro wajib menyertakan tanda tangan kaprodi.", textAlign: pw.TextAlign.justify),
-            ]
-          )
-        )
-      ),
+      margin: pw.EdgeInsets.fromLTRB(72, 36, 72, 36),
+      footer: (context) {
+        if (context.pageNumber == 1) {
+          return pw.DefaultTextStyle(
+            style: defaultTextStyle(ttf, ttfBold, ttfItalic, fontSize: 11),
+            child: pw.Transform.translate(
+              offset: PdfPoint(0, 0), 
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text("Catatan:", textAlign: pw.TextAlign.justify),
+                  pw.SizedBox(height: 2.0),
+                  pw.Text("1. Surat pernyataan ini sekaligus sebagai tanda terima barang.", textAlign: pw.TextAlign.justify),
+                  pw.SizedBox(height: 2.0),
+                  pw.Text("2. Peminjam selain Prodi Teknik Elektro wajib menyertakan tanda tangan kaprodi.", textAlign: pw.TextAlign.justify),
+                ]
+              )
+            )
+          );
+        } 
+        return pw.Container();
+      }, 
       build: (pw.Context context) => [
         pw.DefaultTextStyle(
           style: defaultTextStyle(ttf, ttfBold, ttfItalic),
@@ -173,9 +177,7 @@ class FormController extends GetxController {
                   },
                   children: [
                     for (int i = 0; i < barang.length; i++) ...[
-                      pw.TableRow(children: [
-                        pw.SizedBox(height: 5),
-                      ]),
+                      pw.TableRow(children: [pw.SizedBox(height: 5)]),
                       pw.TableRow(children: [
                         pw.Text('${i + 1}.'),
                         pw.Text('${barang[i]}${banyak[i]}'),
@@ -204,9 +206,7 @@ class FormController extends GetxController {
                       pw.Text("1."),
                       pw.Text("Tidak menyalahgunakan peralatan tersebut, termasuk untuk kegiatan diluar akademis", textAlign: pw.TextAlign.justify),
                     ]),
-                    pw.TableRow(children: [
-                      pw.SizedBox(height: 5),
-                    ]),
+                    pw.TableRow(children: [pw.SizedBox(height: 5)]),
                     pw.TableRow(children: [
                       pw.Text("2."),
                       pw.Text("Mengembalikan dalam kondisi baik sebagaimana saat diterima, dan bersedia bertanggung jawab sepenuhnya terhadap segala macam kerusakan dan kehilangan.", textAlign: pw.TextAlign.justify),
@@ -228,7 +228,7 @@ class FormController extends GetxController {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text('Peminjam,'),
-                        pw.SizedBox(height: 40,),
+                        pw.SizedBox(height: 40),
                         pw.Text('Nama: ${nama ?? ''}'),
                         pw.SizedBox(height: 5),
                         pw.Text('NIM: ${nim ?? ''}'),
@@ -250,18 +250,139 @@ class FormController extends GetxController {
               pw.SizedBox(height: 5),
               pw.Center(
                 child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
                   children: [
                     pw.Text("Mengetahui,"),
                     pw.SizedBox(height: 5),
                     pw.Text("Ketua Prodi ${prodi ?? "__________"}"),  
                     pw.SizedBox(height: 40,),
-                    pw.Text("${ketua ?? "____________________"}"),
-                    pw.SizedBox(height: 5),
-                    pw.Text('NIP:'),
+                    pw.Container(
+                      constraints: pw.BoxConstraints(minWidth: 160),
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text("Nama: ${ketua ?? ""}"),
+                          pw.SizedBox(height: 5),
+                          pw.Text('NIP:'),
+                        ]
+                      ),
+                    )
                   ],
                 ),
               ),
-              pw.SizedBox(height: 16.0),
+              pw.Padding(
+                padding: pw.EdgeInsets.only(left :18),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.SizedBox(height: 36),
+                    pw.Text("ATURAN PEMINJAMAN PERALATAN LABORATORIUM DASAR TEKNIK ELEKTRO", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                    pw.SizedBox(height: 17),
+                    pw.Table(
+                      columnWidths: {
+                        0: const pw.FixedColumnWidth(18),
+                        1: const pw.FlexColumnWidth(),
+                      },
+                      children: [
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('1.'),
+                          pw.Text('Peminjam adalah mahasiswa program S1 Teknik Elektro ITB, dengan rekomendasi dosen pembimbing, atau sivitas akademik lain di lingkungan STEI.'),
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('2.'),
+                          pw.Text('Peminjam selain mahasiswa S1/S2 Teknik Elektro, selain menyertakan rekomendasi dosen pembimbing, juga wajib mendapatkan rekomendasi dari KaProdi bersangkutan.'),
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('3.'),
+                          pw.Text('Peralatan seperti signal generator, multimeter, osciloscope, logic analyzer, spektrum analyzer, dan sejenisnya hanya boleh dipinjam dan dipergunakan di lab dasar.'),
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('4.'),
+                          pw.Text('Peminjam bertanggungjawab sepenuhnya terhadap barang/peralatan yang dipinjam.'),
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('5.'),
+                          pw.Text('Cara melakukan peminjaman (development kit):'),
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text(''),
+                          pw.Table(
+                            columnWidths: {
+                              0: const pw.FixedColumnWidth(18),
+                              1: const pw.FlexColumnWidth(),
+                            },
+                            children: [
+                              pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                              pw.TableRow(children: [
+                                pw.Text('a.'),
+                                pw.Text('mahasiswa menghubungi teknisi Lab Dasar untuk menanyakan ketersediaan alat.'),
+                              ]),
+                              pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                              pw.TableRow(children: [
+                                pw.Text('b.'),
+                                pw.Text('mahasiswa mengisi form peminjaman online dan offline serta meminta tanda tangan / rekomendasi pembimbing dan kaprodi (jika diperlukan).'),
+                              ]),
+                              pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                              pw.TableRow(children: [
+                                pw.Text('c.'),
+                                pw.Text('mahasiswa menyerahkan form peminjaman yang telah diisi dan ditandatangani secara lengkap kepada teknisi, dan teknisi mencocokkan identitas peminjam.'),
+                              ]),
+                              pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                              pw.TableRow(children: [
+                                pw.Text('d.'),
+                                pw.Text('Mahasiswa menerima peralatan yang dipinjam. Jika ingin mencoba di Lab, harus dilakukan oleh teknisi didepan peminjam.'),
+                              ]),
+                              pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                              pw.TableRow(children: [
+                                pw.Text('e.'),
+                                pw.Text('Pada tanggal yang ditentukan, mahasiswa mengembalikan peralatan yang dipinjam ke teknisi. Teknisi mencoba / melakukan pengetesan dan memeriksa bahwa peralatan masih dalam kondisi baik dan lengkap.'),
+                              ]),
+                              pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                              pw.TableRow(children: [
+                                pw.Text('f.'),
+                                pw.Text('Proses pengambilan dan pengembalian harus dilakukan oleh mahasiswa yang namanya tertera di form peminjaman.'),
+                              ]),
+                            ]
+                          )
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('6.'),
+                          pw.Text('Segala hal yang belum tercantum dalam aturan ini akan ditetapkan kemudian.'),
+                        ]),
+                        pw.TableRow(children: [pw.SizedBox(height: 5)]),
+                        pw.TableRow(children: [
+                          pw.Text('7.'),
+                          pw.Text('Peserta melampirkan foto KTM dan KTP pada form ini.'),
+                        ]),
+                      ],
+                    )
+                  ]
+                )
+              ),
+              pw.SizedBox(height: 22),
+              pw.Text('Bandung, Maret 2021'),
+              pw.SizedBox(height: 5),
+              pw.Text('Lab Dasar Teknik Elektro'),
+              pw.SizedBox(height: 5),
+              pw.Text('STEI - ITB'),
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.SizedBox(height: 36),
+                  pw.Text("Lamipran", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.SizedBox(height: 22),
+                  pw.Text('Foto / Scan KTM :'),
+                  pw.SizedBox(height: 284),
+                  pw.Text('Foto / Scan KTP :'),
+                ]
+              )
             ]
           ),
         )
@@ -317,11 +438,8 @@ class FormController extends GetxController {
 
   void download() async {
     final savedFile = await pinjam();
-    List<int> fileInts = List.from(savedFile);
-    web.HTMLAnchorElement()
-    ..href = "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}"
-    ..setAttribute("download", "Form_Peminjaman-${DateTime.now().millisecondsSinceEpoch}.pdf")
-    ..click();
+    final fileName = "Form_Peminjaman-${DateTime.now().millisecondsSinceEpoch}.pdf";
+    await savePdf(savedFile, fileName);
   }
 
   void print() async {

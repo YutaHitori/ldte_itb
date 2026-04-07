@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dropdown_flutter/custom_dropdown.dart';
@@ -28,7 +29,7 @@ class Pinjam extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 8,
             children: [
-              Text('Catatan: Kosongkan kolom jika ingin diisi menggunakan menggunakan tulisan tangan',),
+              Text('Catatan: Kosongkan kolom jika ingin diisi menggunakan tulisan tangan',),
               AutoHideTextField(
                 labelText: 'Nama',
                 decoration: InputDecoration(hintText: '-'),
@@ -107,78 +108,79 @@ class Pinjam extends StatelessWidget {
                   if (c.barangE.value != null) Text('*required', style: TextStyle(color: ColorScheme.dark().error)),
                 ],
               ),
-              ListView.separated(
-                shrinkWrap: true,
-                itemCount: c.barangC.value.length,
-                separatorBuilder: (context, index) => SizedBox(height: 4),
-                itemBuilder: (context, i) {
+              Builder(
+                builder: (context) {
                   var change = true;
-                  return Row(
+                  return Column(
                     spacing: 8,
                     children: [
-                      Expanded(
-                        child: DropdownFlutter<String>.search(
-                          controller: c.barangDC.value[i],
-                          expandedHeaderPadding: EdgeInsets.only(right: 12),
-                          closedHeaderPadding: EdgeInsets.only(right: 8),
-                          hideSelectedFieldWhenExpanded: true,
-                          listItemBuilder: (context, item, isSelected, onItemSelect) => Text(item, style: TextStyle(color: isSelected ? Colors.black : null),),
-                          decoration: CustomDropdownDecoration(
-                            searchFieldDecoration: SearchFieldDecoration(fillColor: appTheme.inputDecorationTheme.fillColor),
-                            closedFillColor: appTheme.inputDecorationTheme.fillColor,
-                            expandedFillColor: appTheme.inputDecorationTheme.fillColor,
-                            closedBorder: c.barangE.value != null ? Border.all(color: appTheme.colorScheme.error) : null
-                          ),
-                          headerBuilder: (context, selectedItem, enabled) {
-                            return TextField(
-                              controller: c.barangC.value[i],
-                              decoration: InputDecoration(hintText: 'Nama Barang'),
-                              onChanged: (value) {
-                                change = false;
-                                var contain = items.where((v) => v.toLowerCase() == value.toLowerCase());
-                                if (contain.isEmpty) {
-                                  c.barangDC.value[i].value = 'custom';
-                                } else c.barangDC.value[i].value = contain.first;
-                                change = true;
+                      for (var i = 0; i < c.barangC.value.length; i++) Row(
+                        spacing: 8,
+                        children: [
+                          Expanded(
+                            child: DropdownFlutter<String>.search(
+                              controller: c.barangDC.value[i],
+                              expandedHeaderPadding: EdgeInsets.only(right: 12),
+                              closedHeaderPadding: EdgeInsets.only(right: 12),
+                              listItemBuilder: (context, item, isSelected, onItemSelect) => Text(item, style: TextStyle(color: isSelected ? Colors.black : null),),
+                              decoration: CustomDropdownDecoration(
+                                searchFieldDecoration: SearchFieldDecoration(fillColor: appTheme.inputDecorationTheme.fillColor),
+                                closedFillColor: appTheme.inputDecorationTheme.fillColor,
+                                expandedFillColor: appTheme.inputDecorationTheme.fillColor,
+                                closedBorder: c.barangE.value != null ? Border.all(color: appTheme.colorScheme.error) : null
+                              ),
+                              headerBuilder: (context, selectedItem, enabled) {
+                                return TextField(
+                                  controller: c.barangC.value[i],
+                                  decoration: InputDecoration(hintText: 'Nama Barang'),
+                                  onChanged: (value) {
+                                    change = false;
+                                    var contain = items.where((v) => v.toLowerCase() == value.toLowerCase());
+                                    if (contain.isEmpty) {
+                                      c.barangDC.value[i].value = 'custom';
+                                    } else c.barangDC.value[i].value = contain.first;
+                                    change = true;
+                                  },
+                                );
                               },
-                            );
-                          },
-                          excludeSelected: false,
-                          items: items,
-                          hintText: 'select',
-                          onChanged: (v) {
-                            if (!change) return;
-                            var text = v;
-                            if (v == 'custom') text = null;
-                            c.barangC.value[i] = TextEditingController(text: text);
-                          },
-                        ),
-                      ),
-                      Text('x'),
-                      SizedBox(
-                        width: 48,
-                        child: TextField(
-                          controller: c.banyakC.value[i],
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [ FilteringTextInputFormatter.digitsOnly ],
-                          decoration: InputDecoration(hintText: 'q', contentPadding: EdgeInsets.all(6)),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () { 
-                          c.barangDC.value.removeAt(i); c.barangDC.refresh(); 
-                          c.barangC.value.removeAt(i); c.barangC.refresh(); 
-                          c.banyakC.value.removeAt(i); c.banyakC.refresh(); 
-                        },
-                        child: Icon(Icons.delete)
-                      ),
+                              excludeSelected: false,
+                              items: items,
+                              hintText: 'select',
+                              onChanged: (v) {
+                                if (!change) return;
+                                var text = v;
+                                if (v == 'custom') text = null;
+                                c.barangC.value[i] = TextEditingController(text: text);
+                              },
+                            ),
+                          ),
+                          Text('x'),
+                          SizedBox(
+                            width: 48,
+                            child: TextField(
+                              controller: c.banyakC.value[i],
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [ FilteringTextInputFormatter.digitsOnly ],
+                              decoration: InputDecoration(hintText: 'q', contentPadding: EdgeInsets.all(6)),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () { 
+                              c.barangDC.value.removeAt(i); c.barangDC.refresh(); 
+                              c.barangC.value.removeAt(i); c.barangC.refresh(); 
+                              c.banyakC.value.removeAt(i); c.banyakC.refresh(); 
+                            },
+                            child: Icon(Icons.delete)
+                          ),
+                        ],
+                      )
                     ],
                   );
                 }
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: ElevatedButton(onPressed: () {
+                padding: const EdgeInsets.symmetric(vertical: kIsWeb ? 8 : 0),
+                child: ElevatedButton(onPressed: c.barangDC.length >= 4 ? null : () {
                   c.barangDC.add(SingleSelectController<String>('custom'));
                   c.barangC.add(TextEditingController());
                   c.banyakC.add(TextEditingController());
